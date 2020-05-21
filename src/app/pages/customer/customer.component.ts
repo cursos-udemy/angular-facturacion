@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import Swal from 'sweetalert2';
+
 import { Customer } from './customer';
 import { CustomerService } from './customer.service';
 
@@ -10,13 +13,26 @@ import { CustomerService } from './customer.service';
 export class CustomerComponent implements OnInit {
 
   public customers: Customer[];
+  public page: number;
+  private limit = 3;
+  public paginator: any;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(
+    private customerService: CustomerService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    this.customerService.getCustomers().subscribe(
-      customers => this.customers = customers
-    );
+    this.activatedRoute.paramMap
+      .subscribe(param => {
+        const page: number = +param.get("page");
+        this.customerService.getCustomers(page, this.limit).subscribe(
+          customers => {
+            this.paginator = customers;
+            this.customers = customers.content
+          }
+        );
+      });
   }
 
   public delete(customer: Customer) {

@@ -3,13 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './layout/navbar/navbar.component';
-import { FooterComponent } from './layout/footer/footer.component';
-import { CustomerComponent } from './customer/customer.component';
 import { AppRoutingModule } from './app.routes';
-import { CustomerService } from './customer/customer.service';
-import { CustomerFormComponent } from './customer/customer-form.component';
+import { AppComponent } from './app.component';
+
+import { NavbarComponent } from './components/layout/navbar/navbar.component';
+import { FooterComponent } from './components/layout/footer/footer.component';
+import { CustomerComponent } from './pages/customer/customer.component';
+import { CustomerFormComponent } from './pages/customer/customer-form.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { CustomerService } from './pages/customer/customer.service';
 
 
 import { registerLocaleData } from '@angular/common';
@@ -25,6 +28,8 @@ registerLocaleData(localeAR, 'es-AR');
     FooterComponent,
     CustomerComponent,
     CustomerFormComponent,
+    PaginatorComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,

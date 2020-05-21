@@ -7,8 +7,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Customer } from './customer';
 
 import Swal from 'sweetalert2';
-import { formatDate } from '@angular/common';
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +18,8 @@ export class CustomerService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  public getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.urlEndpoint)
+  public getCustomers(page: number=0, limit: number=10): Observable<any> {
+    return this.http.get<any>(`${this.urlEndpoint}?page=${page}&limit=${limit}`)
       .pipe(
         catchError(e => {
           Swal.fire('', e.error.message, 'error');

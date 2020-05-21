@@ -1,0 +1,20 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [ngClass]="paginator.first?'disabled':''">
+        <a class="page-link" href="#" [routerLink]="['/customers/page/0']"> First</a>
+      </li>
+      <li class="page-item" [ngClass]="paginator.first?'disabled':''">
+        <a class="page-link" href="#" [routerLink]="['/customers/page/', paginator.number-1]">Previous</a>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [ngClass]="page==paginator.number?'active':''">
+        <a class="page-link" *ngIf="page!=paginator.number" [routerLink]="['/customers/page/', page]">{{page+1}}</a>
+        <a class="page-link disabled" *ngIf="page==paginator.number">{{page+1}}</a>
+      </li>
+      <li class="page-item" [ngClass]="paginator.last?'disabled':''">
+        <a class="page-link" [routerLink]="['/customers/page/', paginator.number+1]">Next</a>
+      </li>
+      <li class="page-item" [ngClass]="paginator.last?'disabled':''">
+        <a class="page-link" [routerLink]="['/customers/page/', paginator.totalPages-1]">Last</a>
+      </li>
+    </ul>
+  </nav>
