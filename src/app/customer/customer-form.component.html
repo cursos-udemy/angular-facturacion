@@ -1,0 +1,45 @@
+
+<div class="card">
+    
+    <ul class="alert alert-danger" *ngIf="errores?.length>0">
+        <li *ngFor="let error of errores" > {{error}}</li>
+    </ul>
+
+    <div class="card-header">{{title}}</div>
+    <div class="card-body">
+        <form #customerForm="ngForm">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="form-first-name">Nombre</label>
+                    <input type="text" class="form-control" id="form-first-name" [(ngModel)]="customer.name" name="name"
+                        placeholder="Nombre" #name="ngModel">
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)">
+                        <div class="invalid-feedback" *ngIf="name.errors.required">Debe completar el nombre</div>
+                        <div class="invalid-feedback" *ngIf="name.errors.minlength">El nombre de tener al menos 4 caracteres</div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="form-last-name">Apellido</label>
+                    <input type="text" class="form-control" id="form-last-name" [(ngModel)]="customer.lastname"
+                        name="lastname" placeholder="Apellido">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="form-email">Email</label>
+                    <input type="email" class="form-control" id="form-email" [(ngModel)]="customer.email"
+                        name="text" placeholder="Email">
+                    <div class="invalid-feedback">Invalid email</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <button type="submit" class="btn btn-success" (click)="create()" *ngIf="!customer.id" [disabled]="!customerForm.form.valid">Generar
+                        Cliente</button>
+                    <button type="submit" class="btn btn-success" (click)="update()" *ngIf="customer.id" [disabled]="!customerForm.form.valid" >Actualizar
+                        Cliente</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
