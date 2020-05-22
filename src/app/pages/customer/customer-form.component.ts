@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import Swal from 'sweetalert2'
-import { Customer } from './customer';
+import { Customer } from '../../models/customer';
 import { CustomerService } from './customer.service';
 
 @Component({

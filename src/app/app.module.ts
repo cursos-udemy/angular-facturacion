@@ -17,6 +17,7 @@ import { CustomerService } from './pages/customer/customer.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeAR from '@angular/common/locales/es-AR';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 registerLocaleData(localeAR, 'es-AR');
 
@@ -30,6 +31,7 @@ registerLocaleData(localeAR, 'es-AR');
     CustomerFormComponent,
     PaginatorComponent,
     BreadcrumbComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

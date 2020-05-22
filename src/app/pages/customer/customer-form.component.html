@@ -31,6 +31,11 @@
                         name="text" placeholder="Email">
                     <div class="invalid-feedback">Invalid email</div>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <label for="form-created-at">Created At</label>
+                    <input type="date" class="form-control" id="form-created-at" [(ngModel)]="customer.createdAt"
+                        name="createdAt" placeholder="Creadted At">
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">

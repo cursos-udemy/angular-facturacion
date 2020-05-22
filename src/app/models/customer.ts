@@ -4,4 +4,5 @@ export class Customer {
     lastname: string;
     email: string;
     createdAt: Date;
+    image: string;
 }

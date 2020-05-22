@@ -1,0 +1,67 @@
+import { Component, OnInit } from '@angular/core';
+import { Customer } from '../../models/customer';
+import { CustomerService } from '../customer/customer.service';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+import { HttpEventType } from '@angular/common/http';
+
+@Component({
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
+})
+export class ProfileComponent implements OnInit {
+
+  public title = "Profile";
+  public customer: Customer;
+  public progreso: number = 0;
+  public imageSelected: File;
+  public filenameSelected = "Seleccione una imagen";
+
+  constructor(
+    private customerService: CustomerService,
+    private activatedRoute: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap
+      .subscribe(param => {
+        const customerId = +param.get('id');
+        if (customerId) {
+          this.customerService.getCustomer(customerId)
+            .subscribe(customer => this.customer = customer);
+        }
+      });
+  }
+
+  selectImage(event) {
+    this.imageSelected = event.target.files[0];
+    this.progreso = 0;
+    this.filenameSelected = this.imageSelected.name;
+    console.log(this.imageSelected);
+    if (this.imageSelected.type.indexOf('image') < 0) {
+      Swal.fire('', 'El archivo debe ser del tipo imagen', 'error');
+      this.imageSelected = null;
+      this.filenameSelected = "Seleccione una imagen";
+    }
+  }
+
+  uploadImage() {
+    if (!this.imageSelected) {
+      Swal.fire('', 'Debe seleccionar una foto', 'error');
+    } else {
+      this.customerService.upload(this.imageSelected, this.customer.id)
+        .subscribe(event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progreso = Math.round((event.loaded / event.total) * 100);
+          } else if (event.type === HttpEventType.Response) {
+            let response: any = event.body;
+            this.customer = response.customer as Customer;
+            Swal.fire('La foto se ha subido!', response.message, 'success');
+          }
+        });
+    }
+  }
+
+
+}

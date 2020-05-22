@@ -38,10 +38,6 @@ export class PaginatorComponent implements OnInit {
     const { totalPages } = this.paginator;
     this.since = Math.min(Math.max(0, this.paginator.number - this.maxElementPaging - 2), totalPages - this.maxElementPaging);
     this.until = Math.max(Math.min(totalPages, this.paginator.number + this.maxElementPaging - 1), this.maxElementPaging + 1);
-    console.log('total:', totalPages);
-    console.log('number: ', this.paginator.number)
-    console.log('since:', this.since);
-    console.log('until:', this.until);
     if (totalPages <= this.maxElementPaging) {
       this.pages = Array(totalPages).fill(0).map((_, i) => i);
     } else {

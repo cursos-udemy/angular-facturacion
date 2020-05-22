@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpErrorResponse, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Customer } from './customer';
+import { Customer } from '../../models/customer';
 
 import Swal from 'sweetalert2';
 
@@ -71,5 +71,19 @@ export class CustomerService {
         return throwError(e);
       }));
   }
+
+  upload(file: File, customerId: number): Observable<HttpEvent<{}>> {
+    let formData = new FormData();
+    formData.append("image", file);
+    formData.append("id", customerId.toString());
+
+    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, {
+      reportProgress: true
+    });
+
+    return this.http.request(req);
+
+  }
+
 
 }
