@@ -26,6 +26,7 @@ export class CustomerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // nos subscribimos a los cambios en el numero de pagina en la url
     this.activatedRoute.paramMap
       .subscribe(param => {
         const page: number = +param.get("page");
@@ -36,6 +37,17 @@ export class CustomerComponent implements OnInit {
           }
         );
       });
+
+    // nos subscribimos a los cambios de imagen en el profile
+    this.modalService.uploadNotifier.subscribe(
+      customer => {
+        console.log('procesando actualizacion de imagen de usuario');
+        this.customers = this.customers.map(c => {
+          if (c.id == customer.id) c.image = customer.image;
+          return c;
+        });
+      }
+    );
   }
 
   public delete(customer: Customer) {

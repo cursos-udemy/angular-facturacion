@@ -18,7 +18,7 @@
         <table class="table table-striped" *ngIf="customers?.length>0">
             <thead class="thead thead-dark">
                 <tr>
-                    <th>Id</th>
+                    <th>#</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
@@ -28,7 +28,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let customer of customers">
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" (click)="openModal(customer)">{{customer.id}}</button> </td>
+                    <td>
+                        <img  (click)="openModal(customer)" *ngIf="customer?.image" src="http://localhost:8080/api/v1/customers/image/{{customer.image}}" 
+                        alt="{{customer.image}}" class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
+                        <img  (click)="openModal(customer)" *ngIf="!customer?.image" src="http://localhost:8080/images/user_not_image.png" 
+                         class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
+                    </td>
                     <td>{{customer.name | uppercase}}</td>
                     <td>{{customer.lastname}}</td>
                     <td>{{customer.email}}</td>

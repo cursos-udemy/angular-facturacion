@@ -52,6 +52,7 @@ export class ProfileComponent implements OnInit {
           } else if (event.type === HttpEventType.Response) {
             let response: any = event.body;
             this.customer = response.customer as Customer;
+            this.modalService.uploadNotifier.emit(this.customer);
             Swal.fire('La foto se ha subido!', response.message, 'success');
           }
         });
