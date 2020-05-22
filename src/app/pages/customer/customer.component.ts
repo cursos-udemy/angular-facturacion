@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 import { Customer } from '../../models/customer';
 import { CustomerService } from './customer.service';
+import { ModalService } from '../profile/modal.service';
 
 @Component({
   selector: 'app-customer',
@@ -13,13 +14,15 @@ import { CustomerService } from './customer.service';
 export class CustomerComponent implements OnInit {
 
   public customers: Customer[];
+  public customerSelected: Customer;
   public page: number;
   private limit = 3;
   public paginator: any;
 
   constructor(
     private customerService: CustomerService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
@@ -78,5 +81,10 @@ export class CustomerComponent implements OnInit {
         )
       }
     });
+  }
+
+  openModal(customer: Customer): void {
+    this.customerSelected = customer;
+    this.modalService.openModal();
   }
 }

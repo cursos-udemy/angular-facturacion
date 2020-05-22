@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Customer } from '../../models/customer';
 import { CustomerService } from '../customer/customer.service';
-import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,25 +13,20 @@ import { HttpEventType } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
 
   public title = "Profile";
+  
+  @Input()
   public customer: Customer;
+
   public progreso: number = 0;
   public imageSelected: File;
   public filenameSelected = "Seleccione una imagen";
 
   constructor(
     private customerService: CustomerService,
-    private activatedRoute: ActivatedRoute
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
-      .subscribe(param => {
-        const customerId = +param.get('id');
-        if (customerId) {
-          this.customerService.getCustomer(customerId)
-            .subscribe(customer => this.customer = customer);
-        }
-      });
   }
 
   selectImage(event) {
@@ -63,5 +58,15 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  public closeModal(): void {
+    this.modalService.closeModal();
+    this.imageSelected = null;
+    this.progreso = 0;
+    this.filenameSelected = "Seleccione una imagen"
+  }
+
+  public modalIsOpen(): boolean {
+    return this.modalService.isOpened();
+  }
 
 }

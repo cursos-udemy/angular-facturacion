@@ -1,7 +1,8 @@
 
+
+<app-profile *ngIf="customerSelected" [customer]="customerSelected"></app-profile>
+
 <div class="card mb-3">
-
-
     <app-breadcrumb></app-breadcrumb>
 
     <div class="card-header bg-ligth">Listado de clientes</div>
@@ -27,7 +28,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let customer of customers">
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/customers/profile/', customer.id]">{{customer.id}}</button> </td>
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" (click)="openModal(customer)">{{customer.id}}</button> </td>
                     <td>{{customer.name | uppercase}}</td>
                     <td>{{customer.lastname}}</td>
                     <td>{{customer.email}}</td>
