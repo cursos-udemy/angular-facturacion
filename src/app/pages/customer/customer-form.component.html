@@ -28,13 +28,23 @@
                 <div class="col-md-6 mb-3">
                     <label for="form-email">Email</label>
                     <input type="email" class="form-control" id="form-email" [(ngModel)]="customer.email"
-                        name="text" placeholder="Email">
+                        name="email" placeholder="Email">
                     <div class="invalid-feedback">Invalid email</div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="form-created-at">Created At</label>
                     <input type="date" class="form-control" id="form-created-at" [(ngModel)]="customer.createdAt"
                         name="createdAt" placeholder="Creadted At">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="form-region">Region</label>
+                    <select id="form-region" class="custom-select" [compareWith]="compareRegion" [(ngModel)]="customer.region" 
+                    name="region">
+                        <option [ngValue]="undefined">-- Seleccione una region --</option>
+                        <option [ngValue]="region" *ngFor="let region of regions" >{{region.name}}</option>
+                      </select>
                 </div>
             </div>
             <div class="row">

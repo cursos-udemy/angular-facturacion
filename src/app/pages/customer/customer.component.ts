@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { Customer } from '../../models/customer';
-import { CustomerService } from './customer.service';
+import { CustomerService } from '../../services/customer.service';
 import { ModalService } from '../profile/modal.service';
 
 @Component({

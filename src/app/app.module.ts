@@ -12,7 +12,7 @@ import { CustomerComponent } from './pages/customer/customer.component';
 import { CustomerFormComponent } from './pages/customer/customer-form.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
-import { CustomerService } from './pages/customer/customer.service';
+import { CustomerService } from './services/customer.service';
 
 
 import { registerLocaleData } from '@angular/common';

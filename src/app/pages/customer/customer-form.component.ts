@@ -3,7 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import Swal from 'sweetalert2'
 import { Customer } from '../../models/customer';
-import { CustomerService } from './customer.service';
+import { CustomerService } from '../../services/customer.service';
+import { Region } from 'src/app/models/region';
+import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 
 @Component({
   selector: 'app-customers-form',
@@ -13,6 +15,7 @@ import { CustomerService } from './customer.service';
 export class CustomerFormComponent implements OnInit {
 
   public customer: Customer = new Customer();
+  public regions: Region[];
   public title: string = "Alta Cliente";
   public errores: string[];
 
@@ -23,6 +26,9 @@ export class CustomerFormComponent implements OnInit {
 
   ngOnInit() {
     this.loadCustomer();
+
+    this.customerService.getRegions()
+      .subscribe(data => this.regions = data);
   }
 
   public loadCustomer() {
@@ -65,6 +71,12 @@ export class CustomerFormComponent implements OnInit {
         this.errores = err.error.errors as string[]
       }
     );
+  }
+
+  public compareRegion(r1: Region, r2: Region): boolean {
+    //return c1 && c2 ? c1.id === c2.id : c1 === c2; 
+    if (r1 === undefined && (r2 === null || r2 === undefined)) { return true};
+    return (r1 == null || r2 == null) ? false : (r1.id === r2.id);
   }
 
 }

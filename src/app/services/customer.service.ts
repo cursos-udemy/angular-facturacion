@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Customer } from '../../models/customer';
+import { Customer } from '../models/customer';
 
 import Swal from 'sweetalert2';
+import { Region } from '../models/region';
 
 @Injectable({
   providedIn: 'root'
@@ -85,5 +86,13 @@ export class CustomerService {
 
   }
 
+  public getRegions(): Observable<Region[]> {
+    return this.http.get<Region[]>(`${this.urlEndpoint}/regions`)
+      .pipe(
+        catchError(e => {
+          Swal.fire('', e.error.message, 'error');
+          return throwError(e);
+        }));
+  }
 
 }
