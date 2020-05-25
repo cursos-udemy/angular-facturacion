@@ -39,11 +39,8 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(this.userInput).subscribe(
       resp => {
-        console.log('resp: ', resp);
-        const payload = JSON.parse(atob(resp.access_token.split(".")[1]));
-        console.log('payload: ', payload);
         Swal.close();
-        if (this.rememberMe) localStorage.setItem('username', this.userInput.username);
+        if (this.rememberMe) localStorage.setItem('username', this.auth.user.username );
         this.router.navigateByUrl('/customers');
       },
       err => {
