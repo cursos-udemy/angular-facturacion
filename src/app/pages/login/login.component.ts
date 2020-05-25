@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  user: UserInput
-  rememberMe = false;
+  public userInput: UserInput
+  public rememberMe = false;
 
   constructor(
     private auth: AuthService,
@@ -20,30 +20,31 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user = new UserInput();
-    if (localStorage.getItem('item')) {
-      this.user.username = localStorage.getItem('username');
+    this.userInput = new UserInput();
+    if (localStorage.getItem('username')) {
+      this.userInput.username = localStorage.getItem('username');
       this.rememberMe = true;
     }
   }
 
-  login(form: NgForm) {
+  public login(form: NgForm) {
     if (form.invalid) return;
 
     Swal.fire({
       allowOutsideClick: false,
-      text: 'por favor... espere un momento',
+      text: 'Autenticando usuario...',
       icon: 'info'
     });
     Swal.showLoading();
 
-    this.auth.login(this.user).subscribe(
+    this.auth.login(this.userInput).subscribe(
       resp => {
         console.log('resp: ', resp);
+        const payload = JSON.parse(atob(resp.access_token.split(".")[1]));
+        console.log('payload: ', payload);
         Swal.close();
-        if (this.rememberMe) localStorage.setItem('username', this.user.username);
-        console.log('navegar a home')
-        this.router.navigateByUrl('/home');
+        if (this.rememberMe) localStorage.setItem('username', this.userInput.username);
+        this.router.navigateByUrl('/customers');
       },
       err => {
         Swal.fire({

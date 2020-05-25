@@ -50,7 +50,6 @@ export class CustomerService {
   }
 
   public create(customer: Customer): Observable<Customer> {
-    console.log(customer);
     return this.http.post(this.urlEndpoint, customer, { headers: this.httpHeaders })
       .pipe(
         map((resp: any) => resp.customer as Customer),

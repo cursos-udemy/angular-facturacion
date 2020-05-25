@@ -33,7 +33,6 @@ export class ProfileComponent implements OnInit {
     this.imageSelected = event.target.files[0];
     this.progreso = 0;
     this.filenameSelected = this.imageSelected.name;
-    console.log(this.imageSelected);
     if (this.imageSelected.type.indexOf('image') < 0) {
       Swal.fire('', 'El archivo debe ser del tipo imagen', 'error');
       this.imageSelected = null;

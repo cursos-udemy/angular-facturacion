@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { UserInput } from '../pages/login/user.input';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiKey = 'AIzaSyBnhZOeNRD1UnIyr4gmvre6I7PLe0ryBZo';
-  private baseURL = 'https://identitytoolkit.googleapis.com/v1/accounts';
-  private enpointSignIn = `${this.baseURL}:signInWithPassword?key=${this.apiKey}`;
-
+  private enpointSignIn = `http://localhost:8080/oauth/token`;
   private token: string;
 
 
@@ -19,24 +17,30 @@ export class AuthService {
     this.readToken();
   }
 
-  login(user: UserInput) {
-    const authData = {
-      username: user.username,
-      password: user.password,
-      returnSecureToken: true
-    };
-    return this.http.post(this.enpointSignIn, authData)
+  public login(user: UserInput): Observable<any> {
+    const clientId = 'angular-app';
+    const clientSecret = '12345';
+    const appCredentials = btoa(`${clientId}:${clientSecret}`);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${appCredentials}`
+    });
+    let authData = new URLSearchParams();
+    authData.set('grant_type', 'password');
+    authData.set('username', user.username);
+    authData.set('password', user.password);
+    return this.http.post<any>(this.enpointSignIn, authData.toString(), { headers })
       .pipe(map(resp => {
-        this.writeToken(resp['idToken']);
+        this.writeToken(resp['access_token']);
         return resp;
       }));
   }
 
-  logout() {
+  public logout() {
     localStorage.removeItem('token')
   }
 
-  isAuthenticated(): boolean {
+  public isAuthenticated(): boolean {
     if (!this.token) return false;
     let expireIn = localStorage.getItem('expireIn');
     if (!expireIn) return false;

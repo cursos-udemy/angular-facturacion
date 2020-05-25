@@ -11,9 +11,10 @@
                     <input class="input100" 
                            type="text" 
                            name="username" id="username"
-                           [(ngModel)]="user.username"
+                           [(ngModel)]="userInput.username"
                            required autofocus
-                           placeholder="Username">
+                           placeholder="Username"
+                           autocomplete="false">
                     <span class="focus-input100"></span>
                 </div>
                 
@@ -23,7 +24,7 @@
                     <input class="input100"
                            type="password" 
                            name="password" id="password" 
-                           [(ngModel)]="user.password" 
+                           [(ngModel)]="userInput.password" 
                            required
                            minlength="3"
                            placeholder="Password">
