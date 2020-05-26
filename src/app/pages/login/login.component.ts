@@ -20,6 +20,12 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    console.log('isa:',this.auth.isAuthenticated())
+    if (this.auth.isAuthenticated()) {
+      this.router.navigateByUrl("/customers");
+    }
+
     this.userInput = new UserInput();
     if (localStorage.getItem('username')) {
       this.userInput.username = localStorage.getItem('username');
@@ -40,18 +46,17 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.userInput).subscribe(
       resp => {
         Swal.close();
-        if (this.rememberMe) localStorage.setItem('username', this.auth.user.username );
+        if (this.rememberMe) localStorage.setItem('username', this.auth.user.username);
         this.router.navigateByUrl('/customers');
       },
       err => {
+        const message = (err.status == 400) ? 'Usuario o Pasword incorrecto' : 'Servicio no disponible';
         Swal.fire({
           allowOutsideClick: false,
-          text: 'invalid credentials',
-          icon: 'warning'
+          text: message,
+          icon: 'error'
         });
       }
     );
   }
-
-
 }

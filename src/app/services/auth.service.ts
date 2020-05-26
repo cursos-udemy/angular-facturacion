@@ -7,7 +7,6 @@ import { UserModel } from '../pages/login/user.model';
 
 const KEY_ITEM_TOKEN: string = "APP-TOKEN";
 const KEY_ITEM_USER: string = "APP-USER";
-const KEY_ITEM_EXPIRED_IN: string = "APP-EXPIRED-IN";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class AuthService {
   private _token: string;
   private _user: UserModel;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public get user(): UserModel {
     if (this._user != null) return this._user;
@@ -58,24 +57,25 @@ export class AuthService {
   }
 
   public logout() {
-    localStorage.removeItem(KEY_ITEM_TOKEN)
+    sessionStorage.removeItem(KEY_ITEM_TOKEN)
   }
 
   public isAuthenticated(): boolean {
-    if (!this._token) return false;
-    let expireIn = localStorage.getItem(KEY_ITEM_EXPIRED_IN);
-    if (!expireIn) return false;
-    return (Date.now() <= parseInt(expireIn));
+    if (!this.token) return false;
+    const { exp } = this.getPayload(this.token);
+    if (!exp) return false;
+    const time = (new Date()).getTime();
+    console.log("3", time, (exp*1000), (time<=exp*1000)) ;
+    return ( time <= (exp*1000));
   }
 
   private storeInfoAuthentication(token: string): void {
     if (token) {
-      const payload = JSON.parse(atob(token.split(".")[1]));
+      const payload = this.getPayload(token);
       this._token = token;
       this._user = this.getUser(payload);
       sessionStorage.setItem(KEY_ITEM_TOKEN, token);
       sessionStorage.setItem(KEY_ITEM_USER, JSON.stringify(this._user));
-      sessionStorage.setItem(KEY_ITEM_EXPIRED_IN, (payload.exp).toString());
     }
   }
 
@@ -88,5 +88,9 @@ export class AuthService {
     user.email = payload.email;
     user.roles = payload.authorities;
     return user;
+  }
+
+  private getPayload(token: string): any {
+    return JSON.parse(atob(token.split(".")[1]));
   }
 }
