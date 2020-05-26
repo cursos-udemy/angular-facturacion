@@ -8,7 +8,7 @@
     <div class="card-header bg-ligth">Listado de clientes</div>
     <div class="card-body">
         <div class="my-2 text-left">
-            <button class="btn btn-outline-primary" type="button" [routerLink]="['/customers/form']">
+            <button *ngIf="auth.hasRoleAdmin()" class="btn btn-outline-primary" type="button" [routerLink]="['/customers/form']">
                 Crear Cliente
             </button>
         </div>
@@ -18,7 +18,7 @@
         <table class="table table-striped" *ngIf="customers?.length>0">
             <thead class="thead thead-dark">
                 <tr>
-                    <th>#</th>
+                    <th *ngIf="auth.hasRoleUser()">#</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
@@ -28,8 +28,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let customer of customers">
-                    <td>
-                        <img  (click)="openModal(customer)" *ngIf="customer?.image" src="http://localhost:8080/api/v1/customers/image/{{customer.image}}" 
+                    <td *ngIf="auth.hasRoleUser()" >
+                        <img (click)="openModal(customer)" *ngIf="customer?.image" src="http://localhost:8080/api/v1/customers/image/{{customer.image}}" 
                         alt="{{customer.image}}" class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
                         <img  (click)="openModal(customer)" *ngIf="!customer?.image" src="http://localhost:8080/images/user_not_image.png" 
                          class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
@@ -39,7 +39,7 @@
                     <td>{{customer.email}}</td>
                     <td>{{customer.createdAt | date: "fullDate"}}</td>
                     <td>
-                        <div class="btn-group btn-group-sm">
+                        <div *ngIf="auth.hasRoleAdmin()" class="btn-group btn-group-sm">
                             <button type="button" class="btn btn-white" [routerLink]="['/customers/form', customer.id ]">
                                 <span class="text-info"><i class="material-icons" style="font-size: 14px">create</i></span>
                             </button>

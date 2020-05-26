@@ -23,7 +23,7 @@
                 <li class="list-group-item">{{customer.region.name}}</li>
               </ul>
     
-              <div class="input-group mb-3">
+              <div class="input-group mb-3" *ngIf="auth.hasRoleAdmin()">
                 <div class="custom-file">
                   <input (change)="selectImage($event)" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
                   <label class="custom-file-label" for="inputGroupFile04">{{filenameSelected}}</label>
@@ -33,7 +33,7 @@
                 </div>
               </div>
     
-              <div *ngIf="progreso > 0" class="progress" style="height: 40px;">
+              <div *ngIf="auth.hasRoleAdmin() && progreso > 0" class="progress" style="height: 40px;">
                 <div class="progress-bar progress-bar-striped text-white" role="progressbar" [ngStyle]="{width:progreso+'%'}" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">
                   {{progreso}}%
                 </div>

@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { Customer } from '../models/customer';
-
 import Swal from 'sweetalert2';
+
+import { Customer } from '../models/customer';
 import { Region } from '../models/region';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,11 @@ export class CustomerService {
   private urlEndpoint: string = 'http://localhost:8080/api/v1/customers';
   private httpHeaders: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
-  constructor(private http: HttpClient, private router: Router) { }
-
-  private isNotAuthorized(err): boolean {
-    if (err['status'] == 401 || err['status'] == 403) {
-      this.router.navigateByUrl("/login");
-      //this.router.navigate(["/login"]);
-      return true;
-    }
-    return false;
-  }
+  constructor(
+    private auth: AuthService,
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   public getCustomers(page: number = 0, limit: number = 10): Observable<any> {
     return this.http.get<any>(`${this.urlEndpoint}?page=${page}&limit=${limit}`)
@@ -38,7 +34,8 @@ export class CustomerService {
   }
 
   public getCustomer(id: number): Observable<Customer> {
-    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`)
+    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
+    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`, { headers })
       .pipe(
         catchError((e: HttpErrorResponse) => {
           if (this.isNotAuthorized(e)) return throwError(e);
@@ -50,7 +47,8 @@ export class CustomerService {
   }
 
   public create(customer: Customer): Observable<Customer> {
-    return this.http.post(this.urlEndpoint, customer, { headers: this.httpHeaders })
+    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
+    return this.http.post(this.urlEndpoint, customer, { headers })
       .pipe(
         map((resp: any) => resp.customer as Customer),
         catchError(e => {
@@ -63,7 +61,8 @@ export class CustomerService {
   }
 
   public update(customer: Customer): Observable<any> {
-    return this.http.put<any>(`${this.urlEndpoint}/${customer.id}`, customer, { headers: this.httpHeaders })
+    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
+    return this.http.put<any>(`${this.urlEndpoint}/${customer.id}`, customer, { headers })
       .pipe(
         catchError(e => {
           if (this.isNotAuthorized(e)) return throwError(e);
@@ -74,7 +73,8 @@ export class CustomerService {
   }
 
   public delete(id: number): Observable<Customer> {
-    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, { headers: this.httpHeaders })
+    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
+    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, { headers })
       .pipe(catchError(e => {
         if (this.isNotAuthorized(e)) return throwError(e);
         this.router.navigate(['/customers']);
@@ -85,10 +85,11 @@ export class CustomerService {
 
   public upload(file: File, customerId: number): Observable<HttpEvent<{}>> {
     let formData = new FormData();
-    formData.append("image", file);
-    formData.append("id", customerId.toString());
+    formData.append('id', customerId.toString());
+    formData.append('image', file);
 
-    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, { reportProgress: true });
+    const headers = this.addAuthorizationToHeaders(new HttpHeaders());
+    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, { headers, reportProgress: true });
     return this.http.request(req).pipe(
       catchError(e => {
         if (this.isNotAuthorized(e)) return throwError(e);
@@ -107,4 +108,27 @@ export class CustomerService {
         }));
   }
 
+  private addAuthorizationToHeaders(httpHeaders: HttpHeaders) {
+    const token = this.auth.token;
+    if (token != null) {
+      return this.httpHeaders.append('Authorization', `Bearer ${token}`);
+    }
+    return this.httpHeaders;
+  }
+
+  private isNotAuthorized(err): boolean {
+    if (err['status'] == 401) {
+      if (this.auth.isAuthenticated()) {
+        this.auth.logout();
+      }
+      this.router.navigateByUrl("/login");
+      return true;
+    }
+    if (err['status'] == 403) {
+      Swal.fire('', 'No tienes permisos para ejecutar esta acción', 'warning');
+      this.router.navigateByUrl("/customers");
+      return true;
+    }
+    return false;
+  }
 }

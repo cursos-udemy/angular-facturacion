@@ -1,9 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { HttpEventType } from '@angular/common/http';
+
+import Swal from 'sweetalert2';
+
 import { Customer } from '../../models/customer';
 import { CustomerService } from '../../services/customer.service';
-import Swal from 'sweetalert2';
-import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './modal.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +26,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    public auth: AuthService
   ) { }
 
   ngOnInit(): void {

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { UserInput } from '../pages/login/user.input';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { UserInput } from '../pages/login/user.input';
 import { UserModel } from '../pages/login/user.model';
 
 const KEY_ITEM_TOKEN: string = "APP-TOKEN";
@@ -69,6 +70,18 @@ export class AuthService {
     if (!exp) return false;
     const time = (new Date()).getTime();
     return ( time <= (exp*1000));
+  }
+
+  public hasRoleAdmin(): boolean {
+    return this.hasRole("ROLE_ADMIN");
+  }
+
+  public hasRoleUser(): boolean {
+    return this.hasRole("ROLE_USER");
+  }
+
+  private hasRole(role: string) : boolean {
+    return this.user.roles.includes(role);
   }
 
   private storeInfoAuthentication(token: string): void {

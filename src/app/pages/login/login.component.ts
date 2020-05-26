@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserInput } from './user.input';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import Swal, { SweetAlertOptions } from 'sweetalert2';
 import { Router } from '@angular/router';
+
+import Swal from 'sweetalert2';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',

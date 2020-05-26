@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Customer } from '../../models/customer';
 import { CustomerService } from '../../services/customer.service';
 import { ModalService } from '../profile/modal.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-customer',
@@ -22,7 +23,8 @@ export class CustomerComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private activatedRoute: ActivatedRoute,
-    private modalService: ModalService
+    private modalService: ModalService,
+    public auth: AuthService
   ) { }
 
   ngOnInit() {

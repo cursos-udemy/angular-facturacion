@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import Swal from 'sweetalert2'
+
 import { Customer } from '../../models/customer';
 import { CustomerService } from '../../services/customer.service';
-import { Region } from 'src/app/models/region';
-import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
+import { Region } from '../../models/region';
+
 
 @Component({
   selector: 'app-customers-form',

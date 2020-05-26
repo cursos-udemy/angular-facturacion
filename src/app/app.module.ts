@@ -12,16 +12,14 @@ import { CustomerComponent } from './pages/customer/customer.component';
 import { CustomerFormComponent } from './pages/customer/customer-form.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { LoginComponent } from './pages/login/login.component';
 import { CustomerService } from './services/customer.service';
-
 
 import { registerLocaleData } from '@angular/common';
 import localeAR from '@angular/common/locales/es-AR';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { LoginComponent } from './pages/login/login.component';
 
 registerLocaleData(localeAR, 'es-AR');
-
 
 @NgModule({
   declarations: [
