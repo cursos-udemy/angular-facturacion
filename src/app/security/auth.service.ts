@@ -80,7 +80,7 @@ export class AuthService {
     return this.hasRole("ROLE_USER");
   }
 
-  private hasRole(role: string) : boolean {
+  public hasRole(role: string) : boolean {
     return this.user.roles.includes(role);
   }
 

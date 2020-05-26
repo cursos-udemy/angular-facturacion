@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 import { Customer } from '../models/customer';
 import { Region } from '../models/region';
-import { AuthService } from './auth.service';
+import { AuthService } from '../security/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -88,7 +88,7 @@ export class CustomerService {
     formData.append('id', customerId.toString());
     formData.append('image', file);
 
-    const headers = this.addAuthorizationToHeaders(new HttpHeaders());
+    let headers = this.addAuthorizationToHeaders(new HttpHeaders());
     const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, { headers, reportProgress: true });
     return this.http.request(req).pipe(
       catchError(e => {
