@@ -16,7 +16,6 @@ import { AuthService } from '../security/auth.service';
 export class CustomerService {
 
   private urlEndpoint: string = 'http://localhost:8080/api/v1/customers';
-  private httpHeaders: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(
     private auth: AuthService,
@@ -34,8 +33,7 @@ export class CustomerService {
   }
 
   public getCustomer(id: number): Observable<Customer> {
-    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
-    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`, { headers })
+    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`)
       .pipe(
         catchError((e: HttpErrorResponse) => {
           if (this.isNotAuthorized(e)) return throwError(e);
@@ -47,8 +45,7 @@ export class CustomerService {
   }
 
   public create(customer: Customer): Observable<Customer> {
-    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
-    return this.http.post(this.urlEndpoint, customer, { headers })
+    return this.http.post(this.urlEndpoint, customer)
       .pipe(
         map((resp: any) => resp.customer as Customer),
         catchError(e => {
@@ -61,8 +58,7 @@ export class CustomerService {
   }
 
   public update(customer: Customer): Observable<any> {
-    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
-    return this.http.put<any>(`${this.urlEndpoint}/${customer.id}`, customer, { headers })
+    return this.http.put<any>(`${this.urlEndpoint}/${customer.id}`, customer)
       .pipe(
         catchError(e => {
           if (this.isNotAuthorized(e)) return throwError(e);
@@ -73,8 +69,7 @@ export class CustomerService {
   }
 
   public delete(id: number): Observable<Customer> {
-    const headers = this.addAuthorizationToHeaders(this.httpHeaders);
-    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, { headers })
+    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`)
       .pipe(catchError(e => {
         if (this.isNotAuthorized(e)) return throwError(e);
         this.router.navigate(['/customers']);
@@ -88,8 +83,7 @@ export class CustomerService {
     formData.append('id', customerId.toString());
     formData.append('image', file);
 
-    let headers = this.addAuthorizationToHeaders(new HttpHeaders());
-    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, { headers, reportProgress: true });
+    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, {reportProgress: true });
     return this.http.request(req).pipe(
       catchError(e => {
         if (this.isNotAuthorized(e)) return throwError(e);
@@ -106,14 +100,6 @@ export class CustomerService {
           Swal.fire('', e.error.message, 'error');
           return throwError(e);
         }));
-  }
-
-  private addAuthorizationToHeaders(httpHeaders: HttpHeaders) {
-    const token = this.auth.token;
-    if (token != null) {
-      return this.httpHeaders.append('Authorization', `Bearer ${token}`);
-    }
-    return this.httpHeaders;
   }
 
   private isNotAuthorized(err): boolean {

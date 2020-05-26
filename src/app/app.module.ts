@@ -1,7 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
@@ -18,6 +18,7 @@ import { CustomerService } from './services/customer.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeAR from '@angular/common/locales/es-AR';
+import { AuthInterceptor } from './security/auth.interceptor';
 
 registerLocaleData(localeAR, 'es-AR');
 
@@ -39,7 +40,10 @@ registerLocaleData(localeAR, 'es-AR');
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [CustomerService, {provide: LOCALE_ID, useValue: 'es-AR' }],
+  providers: [
+    CustomerService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'es-AR' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
