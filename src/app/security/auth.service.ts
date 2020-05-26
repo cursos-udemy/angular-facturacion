@@ -100,7 +100,7 @@ export class AuthService {
     return this.user.roles.includes(role);
   }
 
-  public refreshToken1(token: string): Observable<any> {
+  public refreshTokenRequest(token: string): Observable<any> {
     const credentials = btoa('angularapp' + ':' + '12345');
     const httpHeaders = new HttpHeaders({
       'content-type': 'application/x-www-form-urlencoded',
