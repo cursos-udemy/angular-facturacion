@@ -57,7 +57,10 @@ export class AuthService {
   }
 
   public logout() {
+    this._token = null;
+    this._user = null;
     sessionStorage.removeItem(KEY_ITEM_TOKEN)
+    sessionStorage.removeItem(KEY_ITEM_USER)
   }
 
   public isAuthenticated(): boolean {
@@ -65,7 +68,6 @@ export class AuthService {
     const { exp } = this.getPayload(this.token);
     if (!exp) return false;
     const time = (new Date()).getTime();
-    console.log("3", time, (exp*1000), (time<=exp*1000)) ;
     return ( time <= (exp*1000));
   }
 
@@ -83,8 +85,8 @@ export class AuthService {
     const user = new UserModel();
     user.id = payload.id
     user.username = payload.user_name;
-    user.name = payload.name;
-    user.lastname = payload.lastname;
+    user.name = payload.first_name;
+    user.lastname = payload.last_name;
     user.email = payload.email;
     user.roles = payload.authorities;
     return user;

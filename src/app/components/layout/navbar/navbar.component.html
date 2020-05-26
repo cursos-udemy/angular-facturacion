@@ -12,8 +12,16 @@
             </li>
         </ul>
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item" routetLinkActive="active">
+            <li class="nav-item" *ngIf="!auth.isAuthenticated()">
                 <a  class="btn btn-outline-primary" routerLink="/login">Login</a>
+            </li>
+            <li *ngIf="auth.isAuthenticated()" class="dropdown">
+                <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="min-width: 180px;">
+                {{ auth.user.name}}, {{auth.user.lastname}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <button (click)="logout()" class="dropdown-item" type="submit">Logout</button>
+                </div>
             </li>
         </ul>
     </div>

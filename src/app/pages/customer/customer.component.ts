@@ -41,7 +41,6 @@ export class CustomerComponent implements OnInit {
     // nos subscribimos a los cambios de imagen en el profile
     this.modalService.uploadNotifier.subscribe(
       customer => {
-        console.log('procesando actualizacion de imagen de usuario');
         this.customers = this.customers.map(c => {
           if (c.id == customer.id) c.image = customer.image;
           return c;
@@ -70,7 +69,6 @@ export class CustomerComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        console.log('Eliminando cliente ', customer.name);
         this.customerService.delete(customer.id).subscribe(
           _ => {
             this.customers = this.customers.filter(c => c.id != customer.id);
