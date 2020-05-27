@@ -19,9 +19,9 @@ export class ResponseInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(err => {
         if (err['status'] == 401) {
-          if (this.auth.isAuthenticated()) {
-            this.auth.logout();
-          }
+          //if (this.auth.isAuthenticated()) {
+          //}
+          this.auth.logout();
           this.router.navigateByUrl("/login");
         }
         if (err['status'] == 403) {

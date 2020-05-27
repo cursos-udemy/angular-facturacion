@@ -8,6 +8,7 @@ import { ModalService } from './modal.service';
 import { AuthService } from '../../security/auth.service';
 import { Customer } from '../customers/models/customer';
 import { Invoice } from '../invoices/models/invoice';
+import { InvoiceService } from '../invoices/services/invoice.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
+    private invoiceService: InvoiceService,
     private modalService: ModalService,
     public auth: AuthService
   ) { }
@@ -45,7 +47,6 @@ export class ProfileComponent implements OnInit {
     this.customerService.getInvoices(this.customer.id).subscribe(
       invoices => this.invoices = invoices
     );
-
   }
 
   public selectImage(event) {
@@ -81,7 +82,7 @@ export class ProfileComponent implements OnInit {
     this.modalService.closeModal();
     this.imageSelected = null;
     this.progreso = 0;
-    this.invoices = [];
+    //this.invoices = [];
     this.filenameSelected = "Seleccione una imagen"
   }
 
@@ -90,7 +91,35 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  public delete(invoice: Invoice): void {
+  public deleteInvoice(invoice: Invoice): void {
 
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: `¿Esta seguro de eliminar la factura ${invoice.description}?`,
+      text: 'Ud. no podra revertir esta accion!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText: 'No, cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.invoiceService.delete(invoice.id).subscribe(
+          _ => {
+            this.invoices = this.invoices.filter(i => i.id != invoice.id);
+            swalWithBootstrapButtons.fire('Eliminado!', 'La factura a sido eliminado.', 'success');
+          }
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire('Cancelado', 'La factura aun esta disponible :)', 'error');
+      }
+    });
   }
 }

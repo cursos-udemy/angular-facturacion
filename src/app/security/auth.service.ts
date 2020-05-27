@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { UserInput } from '../pages/login/user.input';
-import { UserModel } from '../pages/login/user.model';
+import { UserInput } from '../pages/login/models/user.input';
+import { UserModel } from '../pages/login/models/user.model';
 
 const KEY_ITEM_TOKEN: string = "APP-TOKEN";
 const KEY_ITEM_REFRESH_TOKEN: string = "APP-REFRESH-TOKEN";

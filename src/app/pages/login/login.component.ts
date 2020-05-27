@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserInput } from './user.input';
+import { UserInput } from './models/user.input';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 

@@ -66,7 +66,7 @@
                   <td>{{invoice.total}}</td>
                   <td>
                     <button class="badge badge-info" type="button" [routerLink]="['/invoices', invoice.id]">Ver</button>
-                    <button *ngIf="auth.hasRoleAdmin()" class="badge badge-danger" type="button" (click)="delete(invoice)">Eliminar</button>
+                    <button *ngIf="auth.hasRoleAdmin()" class="badge badge-danger" type="button" (click)="deleteInvoice(invoice)">Eliminar</button>
                   </td>
                 </tr>
               </tbody>

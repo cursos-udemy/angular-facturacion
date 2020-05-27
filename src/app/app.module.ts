@@ -19,6 +19,8 @@ import { CustomerService } from './pages/customers/services/customer.service';
 import { registerLocaleData } from '@angular/common';
 import localeAR from '@angular/common/locales/es-AR';
 import { httpInterceptorProviders } from './interceptors';
+import { InvoiceComponent } from './pages/invoices/invoice.component';
+import { InvoiceFormComponent } from './pages/invoices/invoice-form.component';
 
 registerLocaleData(localeAR, 'es-AR');
 
@@ -33,6 +35,8 @@ registerLocaleData(localeAR, 'es-AR');
     BreadcrumbComponent,
     ProfileComponent,
     LoginComponent,
+    InvoiceComponent,
+    InvoiceFormComponent,
   ],
   imports: [
     BrowserModule,
