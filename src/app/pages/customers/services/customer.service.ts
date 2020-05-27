@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { Customer } from '../models/customer';
 import { Region } from '../models/region';
+import { Customer } from '../models/customer';
+import { InvoiceItem } from '../../invoices/models/invoice-item';
+import { Invoice } from '../../invoices/models/invoice';
 
 @Injectable({
   providedIn: 'root'
@@ -72,4 +74,10 @@ export class CustomerService {
   public getRegions(): Observable<Region[]> {
     return this.http.get<Region[]>(`${this.urlEndpoint}/regions`);
   }
+
+
+  public getInvoices(customerId: number): Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(`${this.urlEndpoint}/${customerId}/invoices`);
+  }
+ 
 }

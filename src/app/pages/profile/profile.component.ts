@@ -1,12 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
 
-import { Customer } from '../../models/customer';
-import { CustomerService } from '../../services/customer.service';
+import { CustomerService } from '../customers/services/customer.service';
 import { ModalService } from './modal.service';
 import { AuthService } from '../../security/auth.service';
+import { Customer } from '../customers/models/customer';
+import { Invoice } from '../invoices/models/invoice';
 
 @Component({
   selector: 'app-profile',
@@ -16,13 +17,14 @@ import { AuthService } from '../../security/auth.service';
 export class ProfileComponent implements OnInit {
 
   public title = "Profile";
-  
+
   @Input()
   public customer: Customer;
 
   public progreso: number = 0;
   public imageSelected: File;
   public filenameSelected = "Seleccione una imagen";
+  public invoices: Invoice[] = [];
 
   constructor(
     private customerService: CustomerService,
@@ -33,7 +35,20 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectImage(event) {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.findInvoices();
+  }
+
+  private findInvoices(): void {
+    console.log('findInvoices', this.customer.id);
+    this.invoices = [];
+    this.customerService.getInvoices(this.customer.id).subscribe(
+      invoices => this.invoices = invoices
+    );
+
+  }
+
+  public selectImage(event) {
     this.imageSelected = event.target.files[0];
     this.progreso = 0;
     this.filenameSelected = this.imageSelected.name;
@@ -44,7 +59,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  uploadImage() {
+  public uploadImage() {
     if (!this.imageSelected) {
       Swal.fire('', 'Debe seleccionar una foto', 'error');
     } else {
@@ -66,6 +81,7 @@ export class ProfileComponent implements OnInit {
     this.modalService.closeModal();
     this.imageSelected = null;
     this.progreso = 0;
+    this.invoices = [];
     this.filenameSelected = "Seleccione una imagen"
   }
 
@@ -73,4 +89,8 @@ export class ProfileComponent implements OnInit {
     return this.modalService.isOpened();
   }
 
+
+  public delete(invoice: Invoice): void {
+
+  }
 }

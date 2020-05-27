@@ -3,9 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import Swal from 'sweetalert2'
 
-import { Customer } from '../../models/customer';
-import { CustomerService } from '../../services/customer.service';
-import { Region } from '../../models/region';
+import { Customer } from './models/customer';
+import { CustomerService } from './services/customer.service';
+import { Region } from './models/region';
 
 
 @Component({

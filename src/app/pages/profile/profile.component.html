@@ -45,6 +45,36 @@
               <img *ngIf="customer?.image" src="http://localhost:8080/api/v1/customers/image/{{customer.image}}" alt="{{customer.image}}" class="img-thumbnail rounded">
             </div>
           </div>
+
+          <div class="row">
+            <div class="alert alert-info my-4" *ngIf="invoices.length==0">No hay facturas</div>
+            <table class="table table-bordered table-striped my-4" *ngIf="invoices.length > 0">
+              <thead class="thead thead-dark">
+                <tr>
+                  <th>folio</th>
+                  <th>descripción</th>
+                  <th>fecha</th>
+                  <th>total</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let invoice of invoices">
+                  <td>{{invoice.id}}</td>
+                  <td>{{invoice.description}}</td>
+                  <td>{{invoice.createdAt}}</td>
+                  <td>{{invoice.total}}</td>
+                  <td>
+                    <button class="badge badge-info" type="button" [routerLink]="['/invoices', invoice.id]">Ver</button>
+                    <button *ngIf="auth.hasRoleAdmin()" class="badge badge-danger" type="button" (click)="delete(invoice)">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+
         </div>
    
       </div>

@@ -8,13 +8,13 @@ import { AppComponent } from './app.component';
 
 import { NavbarComponent } from './components/layout/navbar/navbar.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
-import { CustomerComponent } from './pages/customer/customer.component';
-import { CustomerFormComponent } from './pages/customer/customer-form.component';
+import { CustomerComponent } from './pages/customers/customer.component';
+import { CustomerFormComponent } from './pages/customers/customer-form.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { LoginComponent } from './pages/login/login.component';
-import { CustomerService } from './services/customer.service';
+import { CustomerService } from './pages/customers/services/customer.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeAR from '@angular/common/locales/es-AR';

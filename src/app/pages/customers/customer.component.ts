@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import Swal from 'sweetalert2';
 
-import { Customer } from '../../models/customer';
-import { CustomerService } from '../../services/customer.service';
+import { Customer } from './models/customer';
+import { CustomerService } from './services/customer.service';
 import { ModalService } from '../profile/modal.service';
 import { AuthService } from '../../security/auth.service';
 
@@ -74,23 +74,11 @@ export class CustomerComponent implements OnInit {
         this.customerService.delete(customer.id).subscribe(
           _ => {
             this.customers = this.customers.filter(c => c.id != customer.id);
-
-            swalWithBootstrapButtons.fire(
-              'Eliminado!',
-              'El cliente a sido eliminado.',
-              'success'
-            );
+            swalWithBootstrapButtons.fire('Eliminado!', 'El cliente a sido eliminado.', 'success');
           }
         );
-
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          'Cancelado',
-          'El cliente aun esta disponible :)',
-          'error'
-        )
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire('Cancelado', 'El cliente aun esta disponible :)', 'error');
       }
     });
   }
