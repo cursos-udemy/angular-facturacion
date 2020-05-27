@@ -4,7 +4,7 @@ import { HttpEventType } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 import { CustomerService } from '../customers/services/customer.service';
-import { ModalService } from './modal.service';
+import { ModalService } from './services/modal.service';
 import { AuthService } from '../../security/auth.service';
 import { Customer } from '../customers/models/customer';
 import { Invoice } from '../invoices/models/invoice';

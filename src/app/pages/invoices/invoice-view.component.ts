@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-invoice',
-  templateUrl: './invoice.component.html',})
-export class InvoiceComponent implements OnInit {
+  templateUrl: './invoice-view.component.html',})
+export class InvoiceViewComponent implements OnInit {
 
   public invoice: Invoice;
 

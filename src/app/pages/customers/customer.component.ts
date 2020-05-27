@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 import { Customer } from './models/customer';
 import { CustomerService } from './services/customer.service';
-import { ModalService } from '../profile/modal.service';
+import { ModalService } from '../profile/services/modal.service';
 import { AuthService } from '../../security/auth.service';
 
 @Component({

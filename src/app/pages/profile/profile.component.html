@@ -46,6 +46,10 @@
             </div>
           </div>
 
+          <div *ngIf="auth.hasRoleAdmin()" class="row">
+            <button class="badge badge-success" type="button" [routerLink]="['/customers', customer.id,'invoice']">+ Factura</button>
+          </div>
+
           <div class="row">
             <div class="alert alert-info my-4" *ngIf="invoices.length==0">No hay facturas</div>
             <table class="table table-bordered table-striped my-4" *ngIf="invoices.length > 0">

@@ -40,6 +40,8 @@
                     <td>{{customer.createdAt | date: "fullDate"}}</td>
                     <td>
                         <div *ngIf="auth.hasRoleAdmin()" class="btn-group btn-group-sm">
+                            <button class="badge badge-success" type="button" [routerLink]="['/customers', customer.id,'invoice']">+ Factura</button>
+
                             <button type="button" class="btn btn-white" [routerLink]="['/customers/form', customer.id ]">
                                 <span class="text-info"><i class="material-icons" style="font-size: 14px">create</i></span>
                             </button>
