@@ -8,7 +8,10 @@ import { InvoiceService } from './services/invoice.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, flatMap } from 'rxjs/operators';
 import { InvoiceItem } from './models/invoice-item';
+
 import Swal from 'sweetalert2';
+
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-invoice-form',
@@ -46,30 +49,30 @@ export class InvoiceFormComponent implements OnInit {
 
   private _filter(value: string): Observable<Item[]> {
     const filterValue = value.toLowerCase();
-    return this.invoiceService.filterItems(filterValue);
+    return this.invoiceService.filterProducts(filterValue);
   }
 
-  public viewItemName(item?: Item): string | undefined {
+  public viewProductName(item?: Item): string | undefined {
     return item ? item.name : undefined;
   }
-  /*
-    seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
-      let producto = event.option.value as Producto;
-      console.log(producto);
-  
-      if (this.existeItem(producto.id)) {
-        this.incrementaCantidad(producto.id);
-      } else {
-        let nuevoItem = new ItemFactura();
-        nuevoItem.producto = producto;
-        this.invoice.items.push(nuevoItem);
-      }
-  
-      this.autocompleteControl.setValue('');
-      event.option.focus();
-      event.option.deselect();
+
+  public selectProduct(event: MatAutocompleteSelectedEvent): void {
+    let producto = event.option.value as Item;
+    console.log(producto);
+
+    if (this.existItem(producto.id)) {
+      this.increaseQuantity(producto.id);
+    } else {
+      let nuevoItem = new InvoiceItem();
+      nuevoItem.item = producto;
+      this.invoice.items.push(nuevoItem);
     }
-  */
+
+    this.autocompleteControl.setValue('');
+    event.option.focus();
+    event.option.deselect();
+  }
+
 
   public updateQuantity(id: number, event: any): void {
     let quantity: number = event.target.value as number;

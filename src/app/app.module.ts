@@ -1,6 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app.routes';
@@ -21,6 +21,11 @@ import localeAR from '@angular/common/locales/es-AR';
 import { httpInterceptorProviders } from './interceptors';
 import { InvoiceViewComponent } from './pages/invoices/invoice-view.component';
 import { InvoiceFormComponent } from './pages/invoices/invoice-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 registerLocaleData(localeAR, 'es-AR');
 
@@ -41,8 +46,13 @@ registerLocaleData(localeAR, 'es-AR');
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [
     CustomerService,

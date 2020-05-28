@@ -8,8 +8,8 @@ import { Item } from '../models/item';
   providedIn: 'root'
 })
 export class InvoiceService {
-
   private urlEndPoint: string = 'http://localhost:8080/api/v1/invoices';
+  private urlEndpointProducts: string = 'http://localhost:8080/api/v1/products';
 
   constructor(private http: HttpClient) { }
 
@@ -25,7 +25,7 @@ export class InvoiceService {
     return this.http.delete<void>(`${this.urlEndPoint}/${id}`);
   }
 
-  public filterItems(term: string): Observable<Item[]> {
-    return this.http.get<Item[]>(`${this.urlEndPoint}/filter-items/${term}`);
+  public filterProducts(term: string): Observable<Item[]> {
+    return this.http.get<Item[]>(`${this.urlEndpointProducts}/filter/${term}`);
   }
 }
