@@ -52,9 +52,7 @@ export class AuthService {
 
 
   public login(user: UserInput): Observable<any> {
-    const clientId = 'angular-app';
-    const clientSecret = '12345';
-    const appCredentials = btoa(`${clientId}:${clientSecret}`);
+    const appCredentials = btoa(`${environment.appClientId}:${environment.appClientSecret}`);
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': `Basic ${appCredentials}`

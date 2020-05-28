@@ -4,7 +4,13 @@
 
 export const environment = {
   production: false,
-  backendServiceURL: "http://localhost:8080",
+  //backendServiceURL: process.env.BACKEND_SERVICE_URL || "http://localhost:8080",
+  //appClientId: process.env.APP_CONFIG_CLIENT_ID || 'angular-app',
+  //appClientSecret: process.env.APP_CONFIG_CLIENT_SECRET || '12345',
+  backendServiceURL: 'http://localhost:8080',
+  appClientId: 'angular-app',
+  appClientSecret: '12345',
+
 };
 
 /*
