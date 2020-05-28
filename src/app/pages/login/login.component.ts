@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/customers');
       },
       err => {
+        console.log('ver que es este error: ', err)
         const message = (err.status == 400) ? 'Usuario o Pasword incorrecto' : 'Servicio no disponible';
         Swal.fire({
           allowOutsideClick: false,

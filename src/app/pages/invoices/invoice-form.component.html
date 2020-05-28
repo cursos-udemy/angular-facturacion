@@ -70,7 +70,7 @@
             </tr>
           </tbody>
         </table>
-        <h5 class="float-right" *ngIf="invoice.items.length > 0">Gran Total: <span class="badge badge-secondary">{{invoice.calculateTotal()}}</span></h5>
+        <h3 class="float-right" *ngIf="invoice.items.length > 0">Total: <span class="badge badge-secondary" style="font-size: 1.3rem;">{{invoice.calculateTotal() | currency:'ARS'}}</span></h3>
   
         <div class="form-group row">
           <div class="col-sm-6">

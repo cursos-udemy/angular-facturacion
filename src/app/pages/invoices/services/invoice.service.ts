@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Invoice } from '../models/invoice';
 import { Item } from '../models/item';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,10 @@ export class InvoiceService {
   }
 
   public create(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(this.urlEndPoint, invoice);
+    return this.http.post<any>(this.urlEndPoint, invoice)
+    .pipe (
+      map( resp => resp.invoice as Invoice)
+    );
   }
 
   public delete(id: number): Observable<void> {

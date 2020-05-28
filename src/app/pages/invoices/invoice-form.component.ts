@@ -15,8 +15,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-invoice-form',
-  templateUrl: './invoice-form.component.html',
-  styleUrls: ['./invoice-form.component.css']
+  templateUrl: './invoice-form.component.html'
 })
 export class InvoiceFormComponent implements OnInit {
 
@@ -58,7 +57,6 @@ export class InvoiceFormComponent implements OnInit {
 
   public selectProduct(event: MatAutocompleteSelectedEvent): void {
     let producto = event.option.value as Item;
-    console.log(producto);
 
     if (this.existItem(producto.id)) {
       this.increaseQuantity(producto.id);
@@ -110,13 +108,12 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   public create(facturaForm): void {
-    console.log(this.invoice);
     if (this.invoice.items.length == 0) {
       this.autocompleteControl.setErrors({ 'invalid': true });
     }
 
     if (facturaForm.form.valid && this.invoice.items.length > 0) {
-      this.invoiceService.create(this.invoice).subscribe(invoice => {
+      this.invoiceService.create(this.invoice).subscribe( invoice => {
         Swal.fire(this.title, `Invoice ${invoice.description} creada con éxito!`, 'success');
         this.router.navigate(['/customers']);
       });
