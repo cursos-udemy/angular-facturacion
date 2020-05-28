@@ -9,6 +9,7 @@ import { AuthService } from '../../security/auth.service';
 import { Customer } from '../customers/models/customer';
 import { Invoice } from '../invoices/models/invoice';
 import { InvoiceService } from '../invoices/services/invoice.service';
+import { environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -26,11 +27,12 @@ export class ProfileComponent implements OnInit {
   public imageSelected: File;
   public filenameSelected = "Seleccione una imagen";
   public invoices: Invoice[] = [];
+  public serverURL: string = environment.backendServiceURL;
 
   constructor(
     private customerService: CustomerService,
     private invoiceService: InvoiceService,
-    private modalService: ModalService,
+    public modalService: ModalService,
     public auth: AuthService
   ) { }
 
@@ -42,7 +44,6 @@ export class ProfileComponent implements OnInit {
   }
 
   private findInvoices(): void {
-    console.log('findInvoices', this.customer.id);
     this.invoices = [];
     this.customerService.getInvoices(this.customer.id).subscribe(
       invoices => this.invoices = invoices

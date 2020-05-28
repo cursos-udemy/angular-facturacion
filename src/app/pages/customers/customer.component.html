@@ -29,9 +29,9 @@
             <tbody>
                 <tr *ngFor="let customer of customers">
                     <td *ngIf="auth.hasRoleUser()" >
-                        <img (click)="openModal(customer)" *ngIf="customer?.image" src="http://localhost:8080/api/v1/customers/image/{{customer.image}}" 
+                        <img (click)="openModal(customer)" *ngIf="customer?.image" src="{{serverURL}}/api/v1/customers/image/{{customer.image}}" 
                         alt="{{customer.image}}" class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
-                        <img  (click)="openModal(customer)" *ngIf="!customer?.image" src="http://localhost:8080/images/user_not_image.png" 
+                        <img  (click)="openModal(customer)" *ngIf="!customer?.image" src="{{serverURL}}/images/user_not_image.png" 
                          class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
                     </td>
                     <td>{{customer.name | uppercase}}</td>

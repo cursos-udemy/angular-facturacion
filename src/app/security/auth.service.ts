@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 import { UserInput } from '../pages/login/models/user.input';
 import { UserModel } from '../pages/login/models/user.model';
@@ -15,7 +16,7 @@ const KEY_ITEM_USER: string = "APP-USER";
 })
 export class AuthService {
 
-  private enpointOauth = `http://localhost:8080/oauth/token`;
+  private endpointAuth = `${environment.backendServiceURL}/oauth/token`;
   private _token: string;
   private _refreshToken: string;
   private _user: UserModel;
@@ -62,7 +63,7 @@ export class AuthService {
     authData.set('grant_type', 'password');
     authData.set('username', user.username);
     authData.set('password', user.password);
-    return this.http.post<string>(this.enpointOauth, authData.toString(), { headers })
+    return this.http.post<string>(this.endpointAuth, authData.toString(), { headers })
       .pipe(map(resp => {
         this.storeInfoAuthentication(resp);
         return resp['user_name'];
@@ -110,7 +111,7 @@ export class AuthService {
     let params = new URLSearchParams();
     params.set('grant_type', 'refresh_token');
     params.set('refresh_token', token);
-    return this.http.post<any>(this.enpointOauth, params.toString(), { headers: httpHeaders })
+    return this.http.post<any>(this.endpointAuth, params.toString(), { headers: httpHeaders })
       .pipe(map(resp => {
         this.storeInfoAuthentication(resp);
         return resp['user_name'];

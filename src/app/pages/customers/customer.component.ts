@@ -7,6 +7,7 @@ import { Customer } from './models/customer';
 import { CustomerService } from './services/customer.service';
 import { ModalService } from '../profile/services/modal.service';
 import { AuthService } from '../../security/auth.service';
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-customer',
@@ -19,11 +20,12 @@ export class CustomerComponent implements OnInit {
   public page: number;
   private limit = 3;
   public paginator: any;
+  public serverURL: string = environment.backendServiceURL;
 
   constructor(
     private customerService: CustomerService,
     private activatedRoute: ActivatedRoute,
-    private modalService: ModalService,
+    public modalService: ModalService,
     public auth: AuthService
   ) { }
 

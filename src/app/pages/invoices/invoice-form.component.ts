@@ -115,7 +115,7 @@ export class InvoiceFormComponent implements OnInit {
     if (facturaForm.form.valid && this.invoice.items.length > 0) {
       this.invoiceService.create(this.invoice).subscribe( invoice => {
         Swal.fire(this.title, `Invoice ${invoice.description} creada con éxito!`, 'success');
-        this.router.navigate(['/customers']);
+        this.router.navigate(['/invoices', invoice.id]);
       });
     }
   }
