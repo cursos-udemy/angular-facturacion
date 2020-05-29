@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  backendServiceURL: "http://localhost:8081",
+  backendServiceURL: "https://gwf-facturacion-backend.herokuapp.com",
   appClientId: 'angular-app',
   appClientSecret: '12345',
 };
